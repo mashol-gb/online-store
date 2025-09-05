@@ -427,6 +427,7 @@ img {
     position: absolute;
     transform: translate(60px, -40px);
     white-space: nowrap;
+    box-shadow: 4px 5px 5px 1px rgb(253 26 29 / 30%); 
 }
 
 .model__tooltip-1,
@@ -875,3 +876,4 @@ color: var(--first-color);
         right: 3rem;
     }
 }
+
