@@ -83,3 +83,91 @@ sr.reveal(`.home__title span:nth-child(3)`,{origin: `right`,opacity: 1})
 sr.reveal(`.home__tooltip, .home__button, .model__button `, {origin: 'bottom'})
 sr.reveal(`.about__data` , {origin: `left`})
 sr.reveal(`.about__img, .model__tooltip` ,{origin: `right`})
+
+// فتح وغلق نافذة تسجيل الدخول
+const loginBtn = document.getElementById('login-btn');
+const loginModal = document.getElementById('login-modal');
+const loginClose = document.getElementById('login-close');
+
+if (loginBtn) {
+  loginBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    loginModal.classList.add('show-modal');
+  });
+}
+
+if (loginClose) {
+  loginClose.addEventListener('click', () => {
+    loginModal.classList.remove('show-modal');
+  });
+}
+
+// التبديل بين Login و Register داخل النافذة
+const authForm = document.getElementById('auth-form');
+const usernameInput = document.getElementById('username');
+const passwordInput = document.getElementById('password');
+const formTitle = document.getElementById('form-title');
+const submitBtn = document.getElementById('submit-btn');
+const toggleBtn = document.getElementById('toggle-btn');
+const toggleText = document.getElementById('toggle-text');
+const message = document.getElementById('message');
+
+let isLoginMode = true;
+
+if (toggleBtn) {
+  toggleBtn.addEventListener('click', () => {
+    isLoginMode = !isLoginMode;
+    message.textContent = '';
+    
+    if (isLoginMode) {
+      formTitle.textContent = 'Login';
+      submitBtn.textContent = 'Sign In';
+      toggleText.textContent = "Don't have an account?";
+      toggleBtn.textContent = 'Register';
+    } else {
+      formTitle.textContent = 'Register';
+      submitBtn.textContent = 'Sign Up';
+      toggleText.textContent = 'Already have an account?';
+      toggleBtn.textContent = 'Login';
+    }
+  });
+}
+
+// الربط مع السيرفر
+if (authForm) {
+  authForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const username = usernameInput.value;
+    const password = passwordInput.value;
+    const endpoint = isLoginMode ? '/api/login' : '/api/register';
+
+    try {
+      const res = await fetch(`http://localhost:3000${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        message.style.color = '#4caf50'; // لون أخضر مناسب للمود المظلم
+        message.textContent = data.message;
+        authForm.reset();
+        
+        // غلق النافذة بعد النجاح بـ 1.5 ثانية
+        setTimeout(() => {
+          loginModal.classList.remove('show-modal');
+          message.textContent = '';
+        }, 1500);
+      } else {
+        message.style.color = '#f44336';
+        message.textContent = data.message;
+      }
+    } catch (err) {
+      message.style.color = '#f44336';
+      message.textContent = 'Server connection error!';
+    }
+  });
+}
