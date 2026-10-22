@@ -300,7 +300,35 @@
       <!--=============== SCROLLREVEAL ===============-->
       <script src="assets/js/scrollreveal.min.js"></script>
 
-      
+     <!--==================== LOGIN MODAL ====================-->
+<div class="login__modal" id="login-modal">
+  <div class="login__content">
+    <i class="fa-solid fa-xmark login__close" id="login-close"></i>
+
+    <h2 class="login__title" id="form-title">Login</h2>
+
+    <form id="auth-form" class="login__form">
+      <div class="login__box">
+        <input type="text" id="username" placeholder="Username" class="login__input" required>
+      </div>
+
+      <div class="login__box">
+        <input type="password" id="password" placeholder="Password" class="login__input" required>
+      </div>
+
+      <button type="submit" id="submit-btn" class="button login__button">Sign In</button>
+    </form>
+
+    <p id="message" class="login__message"></p>
+
+    <div class="login__toggle">
+      <span id="toggle-text">Don't have an account?</span>
+      <button id="toggle-btn" type="button" class="login__toggle-btn">Register</button>
+    </div>
+  </div>
+</div>
+
+              
       <!--=============== MAIN JS ===============-->
       <script src="mashol.js"></script>
 </body>
